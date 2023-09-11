@@ -1,0 +1,17 @@
+  Resources:
+    [RouteTableNAME]:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref NAME_VPC
+    [RouteTableNAMEToIGW]:
+      Type: AWS::EC2::Route
+      DependsOn: [IGW NAME]
+      Properties:
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref [IGW NAME]
+        RouteTableId: !Ref [RouteTableNAME]
+    [RTAssocName]:
+      Type: AWS::EC2::SubnetRouteTbleAssociation
+      Properties:
+        RouteTableOd: !Ref RouteTableNAME
+        SubnetId: !Ref SubnetAsso

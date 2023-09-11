@@ -1,0 +1,48 @@
+---
+  Resources:
+    KidBooVPC:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: 10.1.0.0/16
+        EnableDnsSupport: 'true'
+        EnableDnsHostnames: 'true'
+    
+    kidbooPublic:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref KidBooVPC
+        CidrBlock: 10.1.1.0/24
+    
+    kidbooPrivate:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref KidBooVPC
+        CidrBlock: 10.1.2.0/24
+    
+    IGW:
+      Type: AWS::EC2::InternetGateway
+    
+    AttachIGW:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId: !Ref KidBooVPC
+        InternetGatewayId: !Ref IGW
+
+    RTPublic:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref KidBooVPC
+    
+    RTPublicToIgw:
+      Type: AWS::EC2::Route
+      DependsOn: IGW
+      Properties:
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref IGW
+        RouteTableId: !Ref RTPublic
+    
+    RTassociateIgw:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        RouteTableId: !Ref RTPublic
+        SubnetId: !Ref kidbooPublic

@@ -1,0 +1,9 @@
+---
+Resources:
+  [INTERNE_GATEWAY_NAME]:
+    Type: AWS::EC2::InternetGateway
+  AttachIGW:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC_NAME
+      InternetGatewayId: !Ref INTERNE_GATEWAY_NAME

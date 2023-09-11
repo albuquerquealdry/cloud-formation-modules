@@ -1,0 +1,6 @@
+Resources:
+  [SUBNET_NAME]:
+    Type: AWS::EC2::Subnet
+    Properties:
+      Vpc: !Ref VPC_NAME
+      CidrBlock: 10.1.0.1/24
